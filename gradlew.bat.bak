@@ -1,0 +1,13 @@
+@echo off
+REM Minimal Gradle wrapper launcher for Windows
+
+setlocal
+set DIRNAME=%~dp0
+
+REM Use JAVA_HOME if available, otherwise use java on PATH
+if defined JAVA_HOME (
+ "%JAVA_HOME%\bin\java" -classpath "%DIRNAME%gradle\wrapper\gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain %
+) else (
+ java -classpath "%DIRNAME%gradle\wrapper\gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain %
+)
+endlocal

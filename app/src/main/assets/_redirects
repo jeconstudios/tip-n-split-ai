@@ -1,0 +1,4 @@
+# // app/src/main/assets/_redirects
+/privacy /landing.html#privacy 302
+/support /landing.html#support 302
+/about   /landing.html 200

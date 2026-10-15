@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TipSplitAI" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/ai_blue</item>
+        <item name="colorPrimaryDark">@color/ai_dark_slate</item>
+        <item name="colorAccent">@color/ai_blue</item>
+        <item name="android:statusBarColor">@color/ai_dark_slate</item>
+    </style>
+</resources>

@@ -1,0 +1,11 @@
+// app/src/main/assets/manifest.json
+{
+  "name": "Tip-n-Split AI",
+  "short_name": "Tip-n-Split",
+  "description": "Executive dining bill calculator, AI receipt scanner, and instant group payment splitter.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0B172A",
+  "theme_color": "#0B172A",
+  "orientation": "portrait"
+}

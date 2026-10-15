@@ -1,0 +1,210 @@
+<!-- // app/src/main/assets/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0B172A" />
+    <title>Tip-n-Split AI</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand-badge">JECON STUDIOS</div>
+            <h1>Tip-n-Split AI</h1>
+            <p class="subtitle">Executive Dining &amp; Instant Split</p>
+        </header>
+
+        <!-- Main Input Card -->
+        <section class="input-card">
+            <div class="input-group">
+                <label for="bill-amount">Bill Subtotal (\$)</label>
+                <input type="number" id="bill-amount" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+            </div>
+
+            <div class="input-group">
+                <label for="tax-amount">Tax Amount (\$)</label>
+                <input type="number" id="tax-amount" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" id="tip-on-tax" />
+                <label for="tip-on-tax">Calculate tip on post-tax total</label>
+            </div>
+
+            <div class="input-group">
+                <label>Tip Percentage (<span id="active-tip-label">20%</span>)</label>
+                <div class="tip-grid" id="tip-selector">
+                    <button type="button" data-tip="15" onclick="setTip(15)">15%</button>
+                    <button type="button" data-tip="18" onclick="setTip(18)">18%</button>
+                    <button type="button" data-tip="20" class="active" onclick="setTip(20)">20%</button>
+                    <button type="button" data-tip="25" onclick="setTip(25)">25%</button>
+                    <button type="button" data-tip="0" onclick="setTip(0)">No Tip</button>
+                    <button type="button" data-tip="custom" onclick="setTip('custom')">Custom</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="ppl-count">Split Among (People)</label>
+                <div class="stepper-row">
+                    <button type="button" class="stepper-btn" onclick="adjustPeople(-1)">−</button>
+                    <input type="number" id="ppl-count" value="1" min="1" max="100" inputmode="numeric" />
+                    <button type="button" class="stepper-btn" onclick="adjustPeople(1)">+</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Card -->
+        <section class="result-display">
+            <div class="res-row">
+                <span>Tip Amount:</span>
+                <span class="res-val" id="tip-total">$0.00</span>
+            </div>
+            <div class="res-row">
+                <span>Total Bill:</span>
+                <span class="res-val" id="grand-total">$0.00</span>
+            </div>
+            <div class="res-row main-res">
+                <span>Each Pays:</span>
+                <span class="res-val" id="final-res">$0.00</span>
+            </div>
+        </section>
+
+        <!-- Primary Actions & Payment Deep Links -->
+        <section class="actions">
+            <div class="action-pair">
+                <button type="button" class="btn-outline" onclick="roundUp()">Round Up Total</button>
+                <button type="button" class="btn-outline" onclick="saveCurrentSplit()">Save to History</button>
+            </div>
+            <button type="button" class="btn-primary" onclick="sendTextToGroup()">Send Text to Group</button>
+
+            <div class="payment-header">
+                <span>Instant Payment Request</span>
+                <button type="button" class="link-btn" onclick="openHandlesModal()">Configure Handles ⚙️</button>
+            </div>
+            <div class="payment-row">
+                <button type="button" class="btn-pay venmo" onclick="payWith('venmo')">Venmo</button>
+                <button type="button" class="btn-pay cashapp" onclick="payWith('cashapp')">CashApp</button>
+                <button type="button" class="btn-pay paypal" onclick="payWith('paypal')">PayPal</button>
+            </div>
+        </section>
+
+        <!-- AI & Utility Tools Grid -->
+        <section class="tools-grid">
+            <button type="button" class="tool-item" id="tile-scanner" onclick="handleFeatureTap('scanner')">
+                <span class="tool-icon">📷</span>
+                <span class="tool-title">Receipt Scanner</span>
+                <span class="lock-badge" id="lock-scanner">🔒</span>
+            </button>
+            <button type="button" class="tool-item" id="tile-ai" onclick="handleFeatureTap('ai')">
+                <span class="tool-icon">✨</span>
+                <span class="tool-title">AI Assistant</span>
+                <span class="lock-badge" id="lock-ai">🔒</span>
+            </button>
+            <button type="button" class="tool-item" onclick="openHistoryModal()">
+                <span class="tool-icon">🕒</span>
+                <span class="tool-title">Split History</span>
+            </button>
+            <button type="button" class="tool-item" onclick="resetCalculator()">
+                <span class="tool-icon">🔄</span>
+                <span class="tool-title">Reset Table</span>
+            </button>
+        </section>
+
+        <!-- Hidden Camera File Input for Receipt Scanning -->
+        <input type="file" id="receipt-file-input" accept="image/*" capture="environment" style="display: none;" onchange="processReceiptImage(event)" />
+
+        <!-- Voice Input Trigger -->
+        <button type="button" class="footer-voice-btn" id="voice-btn" onclick="triggerVoiceInput()">
+            🎤 OPEN VOICE INPUT
+        </button>
+        <div id="voice-status" class="status-banner" style="display: none;"></div>
+
+        <!-- Bottom Monetization Banner -->
+        <div id="ad-banner" class="ad-banner">
+            <span id="unlock-timer-text">Ad-Supported Mode • <a href="javascript:void(0)" onclick="openUnlockModal('pro')">Unlock Pro ($2.99)</a></span>
+        </div>
+    </div>
+
+    <!-- Modal 1: Dual Unlock Paywall (1-Hr Rewarded Ad vs $2.99 Pro) -->
+    <div id="unlock-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <h2 class="modal-title">Unlock Executive AI Tools</h2>
+            <p class="modal-desc">Watch a short 15-second sponsor clip to unlock <strong>AI Receipt Scanner</strong> &amp; <strong>Smart Split Assistant</strong> for 1 hour, or upgrade once to unlock forever.</p>
+
+            <div id="ad-Countdown-box" class="ad-video-box" style="display: none;">
+                <p id="ad-countdown-label">Sponsor Message Playing... 15s</p>
+                <div class="progress-bar-bg">
+                    <div id="ad-progress-fill" class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <div class="modal-actions" id="unlock-modal-buttons">
+                <button type="button" class="btn-primary" onclick="startRewardedAd()">▶ Watch 15s Ad (1-Hour Pass)</button>
+                <button type="button" class="btn-outline pro-btn" onclick="activateProForever()">★ Unlock Forever — $2.99</button>
+                <button type="button" class="btn-text" onclick="closeModals()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: AI Assistant Smart Split & Gemini Key Setup -->
+    <div id="ai-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <h2 class="modal-title">✨ AI Split Assistant</h2>
+            <p class="modal-desc">Describe complex splits in plain English (e.g., <em>"Bill is $145, tax $12, 20% tip, 4 people"</em>).</p>
+            <textarea id="ai-prompt-input" rows="3" placeholder="Type or paste receipt details here..."></textarea>
+
+            <div class="input-group" style="margin-top: 12px;">
+                <label for="gemini-api-key">Optional Gemini API Key (for Live Vision/AI):</label>
+                <input type="password" id="gemini-api-key" placeholder="AIzaSy... (falls back to local parser if blank)" />
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-primary" onclick="runAiAssistant()">Apply to Calculator</button>
+                <button type="button" class="btn-text" onclick="closeModals()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Split History Log -->
+    <div id="history-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <h2 class="modal-title">🕒 Recent Bill Splits</h2>
+            <div id="history-list" class="history-list"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn-outline" onclick="openNativeHistory()">View Cloud Voice Logs</button>
+                <button type="button" class="btn-text" onclick="clearLocalHistory()">Clear Local History</button>
+                <button type="button" class="btn-primary" onclick="closeModals()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: Payment Handles Configuration -->
+    <div id="handles-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <h2 class="modal-title">⚙️ Payment Handles</h2>
+            <p class="modal-desc">Set your handles once so friends are routed directly to your payment profile with the exact amount pre-filled.</p>
+            <div class="input-group">
+                <label for="handle-venmo">Venmo Username (without @)</label>
+                <input type="text" id="handle-venmo" placeholder="e.g. David-Connolly" />
+            </div>
+            <div class="input-group">
+                <label for="handle-cashapp">CashApp $Cashtag (without \$)</label>
+                <input type="text" id="handle-cashapp" placeholder="e.g. djconnolly" />
+            </div>
+            <div class="input-group">
+                <label for="handle-paypal">PayPal.Me Username</label>
+                <input type="text" id="handle-paypal" placeholder="e.g. djconnolly" />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-primary" onclick="savePaymentHandles()">Save Handles</button>
+                <button type="button" class="btn-text" onclick="closeModals()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

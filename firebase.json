@@ -1,0 +1,36 @@
+// firebase.json
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "hosting": {
+    "public": "app/src/main/assets",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "CleanUrls": true,
+    "rewrites": [
+      {
+        "source": "/privacy",
+        "destination": "/landing.html"
+      },
+      {
+        "source": "/support",
+        "destination": "/landing.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css|html|json)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=3600"
+          }
+        ]
+      }
+    ]
+  }
+}

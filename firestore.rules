@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /voiceLogs/{logId} {
+      // Only authenticated users may create logs and the userId must match the request.auth.uid
+      allow create: if request.auth != null
+                     && request.resource.data.keys().hasOnly(['input', 'userId', 'timestamp'])
+                     && request.resource.data.input is string
+                     && request.resource.data.input.size() <= 5000
+                     && request.resource.data.userId == request.auth.uid;
+      // Users can read/update/delete their own entries only
+      allow read, update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+  }
+}

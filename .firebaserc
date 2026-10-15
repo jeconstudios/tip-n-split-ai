@@ -1,0 +1,6 @@
+// .firebaserc
+{
+  "projects": {
+    "default": "tip-n-split-ai"
+  }
+}

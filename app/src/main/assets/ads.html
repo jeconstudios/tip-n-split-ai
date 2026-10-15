@@ -1,0 +1,57 @@
+<!-- // app/src/main/assets/ads.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unlock Executive AI Tools — Tip-n-Split AI</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container" style="text-align: center; padding-top: 40px;">
+        <div class="input-card">
+            <div class="brand-badge">SPONSORED ACCESS</div>
+            <h1 style="color: var(--las-gold-bright); font-size: 1.4rem; margin-bottom: 10px;">Unlock AI Receipt Scanner &amp; Voice Split</h1>
+            <p class="modal-desc">Watch a short 15-second sponsor message to unlock AI Receipt Scanner and Voice Split for 1 hour — or upgrade once for $2.99 to unlock forever.</p>
+
+            <div class="ad-video-box">
+                <p id="standalone-ad-status">Sponsor clip playing... 5s</p>
+                <div class="progress-bar-bg">
+                    <div id="standalone-ad-bar" class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <button type="button" id="return-btn" class="btn-primary" onclick="completeStandaloneUnlock()" disabled>
+                Unlocking in 5s...
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let sec = 5;
+        const statusEl = document.getElementById('standalone-ad-status');
+        const barEl = document.getElementById('standalone-ad-bar');
+        const btnEl = document.getElementById('return-btn');
+
+        const timer = setInterval(() => {
+            sec -= 1;
+            const pct = Math.min(100, Math.round(((5 - sec) / 5) * 100));
+            barEl.style.width = pct + '%';
+            if (sec > 0) {
+                statusEl.innerText = 'Sponsor clip playing... ' + sec + 's';
+                btnEl.innerText = 'Unlocking in ' + sec + 's...';
+            } else {
+                clearInterval(timer);
+                localStorage.setItem('tns_unlock_expires_at_v1', String(Date.now() + 3600000));
+                statusEl.innerText = 'Unlocked for 60 minutes!';
+                btnEl.disabled = false;
+                btnEl.innerText = 'Return to Calculator →';
+            }
+        }, 1000);
+
+        function completeStandaloneUnlock() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

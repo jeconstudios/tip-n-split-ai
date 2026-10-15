@@ -1,0 +1,265 @@
+<!-- // app/src/main/assets/landing.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0B172A" />
+    <meta name="description" content="Tip-n-Split AI by JECON LLC — Executive dining calculator, AI receipt scanner, voice split parser, and instant Venmo, CashApp, and PayPal check splitting." />
+    <title>Tip-n-Split AI | Executive Dining &amp; Instant Bill Split — JECON LLC</title>
+    <style>
+        :root {
+            --las-navy: #0B172A;
+            --las-gold: #B8860B;
+            --las-gold-bright: #D4AF37;
+            --las-surface: #121824;
+            --las-input: #1B2436;
+            --las-border: #2A364F;
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--las-navy);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--las-gold-bright);
+            text-decoration: none;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--las-border);
+        }
+
+        .brand {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--las-gold-bright);
+            letter-spacing: 0.5px;
+        }
+
+        .brand span {
+            display: block;
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+        }
+
+        .hero {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 64px 24px 48px 24px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--las-input);
+            border: 1px solid var(--las-gold);
+            color: var(--las-gold-bright);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+
+        .hero h1 span {
+            color: var(--las-gold-bright);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 620px;
+            margin: 0 auto 32px auto;
+        }
+
+        .cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--las-gold-bright), var(--las-gold));
+            color: var(--las-navy);
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--las-gold-bright);
+            color: var(--las-gold-bright);
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .features-grid {
+            max-width: 1040px;
+            margin: 20px auto 60px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--las-surface);
+            border: 1px solid var(--las-border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .feature-card h3 {
+            margin: 0 0 8px 0;
+            color: var(--las-gold-bright);
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .legal-section {
+            max-width: 860px;
+            margin: 0 auto 48px auto;
+            padding: 0 24px;
+        }
+
+        .legal-card {
+            background: var(--las-surface);
+            border: 1px solid var(--las-border);
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .legal-card h2 {
+            margin-top: 0;
+            color: var(--las-gold-bright);
+            font-size: 1.35rem;
+        }
+
+        .legal-card p,
+        .legal-card li {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        footer {
+            border-top: 1px solid var(--las-border);
+            text-align: center;
+            padding: 28px 24px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <span>JECON LLC</span>
+            Tip-n-Split AI
+        </div>
+        <div class="nav-links">
+            <a href="./index.html">Launch Web App</a>
+            <a href="#features">Features</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#support">Support</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="badge">EXECUTIVE DINING UTILITY</div>
+        <h1>Smart Dining, <span>Instant Splitting.</span></h1>
+        <p>Scan paper receipts with AI Vision, speak your check out loud, and request exact shares via Venmo, CashApp, PayPal, or Group SMS in seconds.</p>
+        <div class="cta-group">
+            <a href="./index.html" class="btn-gold">Launch App Now</a>
+            <a href="#support" class="btn-outline">Google Play &amp; iOS Support</a>
+        </div>
+    </section>
+
+    <section id="features" class="features-grid">
+        <div class="feature-card">
+            <h3>📷 AI Receipt Scanner</h3>
+            <p>Snap a photo of any restaurant check to extract subtotal and tax straight into the calculator.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🎤 Voice-to-Split</h3>
+            <p>Say "Bill is \$85, tax \$6.80, 20% tip, split 4 ways" and watch every field populate automatically.</p>
+        </div>
+        <div class="feature-card">
+            <h3>💸 Instant Payment Deep Links</h3>
+            <p>One-tap payment requests pre-filled with each diner's exact share for Venmo, CashApp, and PayPal.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📲 Group SMS Breakdown</h3>
+            <p>Send a formatted itemized receipt summary to the whole table via native text or share sheet.</p>
+        </div>
+    </section>
+
+    <section class="legal-section">
+        <div id="privacy" class="legal-card">
+            <h2>Privacy Policy</h2>
+            <p><strong>Effective Date:</strong> October 15, 2026 | <strong>Publisher:</strong> JECON LLC (`com.tipsplit.ai`)</p>
+            <ul>
+                <li><strong>Calculator &amp; Split Data:</strong> Bill totals, tax amounts, local split history, and configured payment handles (Venmo, CashApp, PayPal) are stored locally on your device via browser `localStorage` and are never sold to third parties.</li>
+                <li><strong>Microphone &amp; Voice Input (`RECORD_AUDIO`):</strong> When you explicitly initiate Voice Input and grant consent, audio is transcribed to populate calculator fields. If Cloud Voice Logging is active on Android, transcripts are stored in Google Cloud Firestore scoped strictly to your authenticated `userId`.</li>
+                <li><strong>Camera &amp; Receipt Images (`CAMERA`):</strong> Receipt images captured for the AI Scanner are processed transiently to extract subtotal and tax figures and are not permanently stored on our servers.</li>
+                <li><strong>Data Deletion Requests:</strong> You may clear your local history at any time inside the app via <em>Split History → Clear Local History</em>, or request cloud log deletion via our support contact below.</li>
+            </ul>
+        </div>
+
+        <div id="support" class="legal-card">
+            <h2>App Support &amp; Contact</h2>
+            <p>For technical support, billing inquiries, or data removal requests regarding <strong>Tip-n-Split AI</strong> (`tns.jeconllc.com` / `apps.jeconllc.com`), contact JECON LLC:</p>
+            <ul>
+                <li><strong>Organization:</strong> JECON LLC (Jecon Studios)</li>
+                <li><strong>Support Portal:</strong> <a href="https://tns.jeconllc.com/#support">https://tns.jeconllc.com/#support</a></li>
+                <li><strong>Email:</strong> <a href="mailto:support@jeconllc.com">support@jeconllc.com</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 JECON LLC. All rights reserved. • <a href="./index.html">Open Calculator</a> • <a href="#privacy">Privacy</a> • <a href="#support">Support</a>
+    </footer>
+</body>
+</html>
