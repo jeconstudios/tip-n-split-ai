@@ -5,160 +5,480 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#0B172A" />
-    <title>Tip-n-Split AI</title>
+    <title>Tip-n-Split AI — Executive 33-Function Suite</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="manifest" href="manifest.json" />
 </head>
 <body>
     <div class="container">
+        <!-- Top Executive Bar with Auth & Security Lock -->
+        <div class="top-utility-bar">
+            <button type="button" class="auth-pill" id="auth-status-btn" onclick="openAuthModal()">
+                🔒 Sign In / Vault
+            </button>
+            <div class="top-right-actions">
+                <button type="button" class="icon-pill" id="pin-lock-btn" onclick="togglePinLockScreen()" title="Quick PIN Lock">🛡️</button>
+                <span class="pro-pill" id="pro-badge-pill" onclick="openUnlockModal('pro')">FREE TIER</span>
+            </div>
+        </div>
+
         <header>
-            <div class="brand-badge">JECON STUDIOS</div>
+            <div class="brand-badge">JECON STUDIOS • EXECUTIVE EDITION</div>
             <h1>Tip-n-Split AI</h1>
-            <p class="subtitle">Executive Dining &amp; Instant Split</p>
+            <p class="subtitle">33-Function Smart Dining &amp; Financial Expense Suite</p>
         </header>
 
-        <!-- Main Input Card -->
-        <section class="input-card">
-            <div class="input-group">
-                <label for="bill-amount">Bill Subtotal (\$)</label>
-                <input type="number" id="bill-amount" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
-            </div>
+        <!-- Primary Navigation Tabs -->
+        <nav class="tab-nav">
+            <button type="button" class="tab-btn active" data-tab="tab-split" onclick="switchTab('tab-split')">⚡ Split</button>
+            <button type="button" class="tab-btn" data-tab="tab-travel" onclick="switchTab('tab-travel')">🌍 Travel</button>
+            <button type="button" class="tab-btn" data-tab="tab-vault" onclick="switchTab('tab-vault')">🔐 Finance</button>
+            <button type="button" class="tab-btn" data-tab="tab-directory" onclick="switchTab('tab-directory')">🧰 33 Tools</button>
+        </nav>
 
-            <div class="input-group">
-                <label for="tax-amount">Tax Amount (\$)</label>
-                <input type="number" id="tax-amount" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
-            </div>
+        <!-- ==========================================
+             TAB 1: CORE & ADVANCED CALCULATOR
+             ========================================== -->
+        <main id="tab-split" class="tab-panel active">
+            <section class="input-card">
+                <!-- Function #19: Multi-Receipt Merger Bar -->
+                <div class="mini-toolbar">
+                    <span class="toolbar-label">Check Mode:</span>
+                    <button type="button" class="chip-btn" onclick="handleGatedFunction(19, mergeSecondReceipt)">+ Merge Bar/2nd Check</button>
+                    <button type="button" class="chip-btn" onclick="handleGatedFunction(18, detectAutoGratuity)">🔍 Auto-Grat Check</button>
+                </div>
 
-            <div class="checkbox-row">
-                <input type="checkbox" id="tip-on-tax" />
-                <label for="tip-on-tax">Calculate tip on post-tax total</label>
-            </div>
+                <!-- Function #1: Bill Subtotal -->
+                <div class="input-group">
+                    <label for="bill-amount">1. Bill Subtotal ($)</label>
+                    <input type="number" id="bill-amount" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+                </div>
 
-            <div class="input-group">
-                <label>Tip Percentage (<span id="active-tip-label">20%</span>)</label>
-                <div class="tip-grid" id="tip-selector">
-                    <button type="button" data-tip="15" onclick="setTip(15)">15%</button>
-                    <button type="button" data-tip="18" onclick="setTip(18)">18%</button>
-                    <button type="button" data-tip="20" class="active" onclick="setTip(20)">20%</button>
-                    <button type="button" data-tip="25" onclick="setTip(25)">25%</button>
-                    <button type="button" data-tip="0" onclick="setTip(0)">No Tip</button>
-                    <button type="button" data-tip="custom" onclick="setTip('custom')">Custom</button>
+                <!-- Functions #2 & #3: Tax Amount & Auto Tax % -->
+                <div class="dual-input-row">
+                    <div class="input-group">
+                        <label for="tax-amount">2. Tax ($)</label>
+                        <input type="number" id="tax-amount" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+                    </div>
+                    <div class="input-group">
+                        <label for="tax-rate-pct">3. Or Tax Rate (%)</label>
+                        <input type="number" id="tax-rate-pct" placeholder="e.g. 8.25" step="0.05" min="0" inputmode="decimal" oninput="applyTaxRatePercent()" />
+                    </div>
+                </div>
+
+                <!-- Function #12: Deduct Alcohol / Bar Tab from Tip Base -->
+                <div class="dual-input-row">
+                    <div class="input-group">
+                        <label for="bar-amount">12. Alcohol/Bar ($)</label>
+                        <input type="number" id="bar-amount" placeholder="0.00 (optional)" step="0.01" min="0" inputmode="decimal" />
+                    </div>
+                    <div class="input-group">
+                        <label for="discount-amount">Promo/Gift Card ($)</label>
+                        <input type="number" id="discount-amount" placeholder="0.00 (optional)" step="0.01" min="0" inputmode="decimal" />
+                    </div>
+                </div>
+
+                <!-- Function #4: Pre-Tax vs Post-Tax Toggle & Function #12 Toggle -->
+                <div class="checkbox-grid">
+                    <label class="checkbox-row">
+                        <input type="checkbox" id="tip-on-tax" />
+                        <span>4. Tip on post-tax</span>
+                    </label>
+                    <label class="checkbox-row">
+                        <input type="checkbox" id="exclude-bar-tip" />
+                        <span>12. Exclude bar from tip</span>
+                    </label>
+                </div>
+
+                <!-- Functions #5, #6, #7: Tip Presets, Custom Slider, Service Star Rating -->
+                <div class="input-group">
+                    <div class="label-split">
+                        <label>5. Tip Percentage (<span id="active-tip-label">20%</span>)</label>
+                        <button type="button" class="link-btn" onclick="openServiceRatingPrompt()">7. ⭐ Rate Service</button>
+                    </div>
+                    <div class="tip-grid" id="tip-selector">
+                        <button type="button" data-tip="15" onclick="setTip(15)">15%</button>
+                        <button type="button" data-tip="18" onclick="setTip(18)">18%</button>
+                        <button type="button" data-tip="20" class="active" onclick="setTip(20)">20%</button>
+                        <button type="button" data-tip="25" onclick="setTip(25)">25%</button>
+                        <button type="button" data-tip="0" onclick="setTip(0)">0%</button>
+                        <button type="button" data-tip="custom" onclick="setTip('custom')">Custom</button>
+                    </div>
+                    <!-- Function #6: Precision Tip Slider -->
+                    <input type="range" id="tip-slider" min="0" max="35" step="1" value="20" oninput="setTipFromSlider(this.value)" class="gold-slider" />
+                </div>
+
+                <!-- Functions #8, #11, #13: People Count, Household Units, VIP Comp Guests -->
+                <div class="dual-input-row">
+                    <div class="input-group">
+                        <label for="ppl-count">8. Total Diners</label>
+                        <div class="stepper-row">
+                            <button type="button" class="stepper-btn" onclick="adjustPeople(-1)">−</button>
+                            <input type="number" id="ppl-count" value="1" min="1" max="100" inputmode="numeric" />
+                            <button type="button" class="stepper-btn" onclick="adjustPeople(1)">+</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="vip-count">13. Free VIP/B-Day Guests</label>
+                        <div class="stepper-row">
+                            <button type="button" class="stepper-btn" onclick="adjustVip(-1)">−</button>
+                            <input type="number" id="vip-count" value="0" min="0" max="99" inputmode="numeric" />
+                            <button type="button" class="stepper-btn" onclick="adjustVip(1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Functions #9, #10, #11: Advanced Split Mode Buttons -->
+                <div class="split-mode-bar">
+                    <button type="button" class="chip-btn" onclick="handleGatedFunction(9, openItemizedModal)">9. 🧾 Itemized Split</button>
+                    <button type="button" class="chip-btn" onclick="handleGatedFunction(10, runExecRatioSplit)">10. ⚖️ Exec % Split</button>
+                    <button type="button" class="chip-btn" onclick="handleGatedFunction(11, runCouplesSplit)">11. 👫 Couples Split</button>
+                </div>
+            </section>
+
+            <!-- Results Display Card -->
+            <section class="result-display">
+                <div class="res-row">
+                    <span>Tip Amount:</span>
+                    <span class="res-val" id="tip-total">$0.00</span>
+                </div>
+                <div class="res-row">
+                    <span>Grand Total:</span>
+                    <span class="res-val" id="grand-total">$0.00</span>
+                </div>
+                <div class="res-row" id="paying-diners-row" style="display:none;">
+                    <span>Paying Diners (Excl. VIP):</span>
+                    <span class="res-val" id="paying-diners-val">1</span>
+                </div>
+                <div class="res-row main-res">
+                    <span>Each Paying Diner:</span>
+                    <span class="res-val" id="final-res">$0.00</span>
+                </div>
+                <!-- Function #14: Penny Remainder Resolver -->
+                <div class="penny-notice" id="penny-resolver-text">14. Exact split — $0.00 remainder</div>
+            </section>
+
+            <!-- Primary Actions & Deep Links -->
+            <section class="actions">
+                <div class="action-pair">
+                    <button type="button" class="btn-outline" onclick="roundUp()">14. Round Up Total</button>
+                    <button type="button" class="btn-outline" onclick="saveSplitToVault()">31. Save to Vault</button>
+                </div>
+
+                <div class="action-pair">
+                    <button type="button" class="btn-primary" onclick="sendTextToGroup()">28. Text Group</button>
+                    <button type="button" class="btn-outline" onclick="handleGatedFunction(29, openQrModal)">29. 📲 Table QR</button>
+                </div>
+
+                <div class="payment-header">
+                    <span>Instant Payment Request (25–27)</span>
+                    <button type="button" class="link-btn" onclick="openHandlesModal()">Configure Handles ⚙️</button>
+                </div>
+                <div class="payment-row">
+                    <button type="button" class="btn-pay venmo" onclick="payWith('venmo')">Venmo</button>
+                    <button type="button" class="btn-pay cashapp" onclick="payWith('cashapp')">CashApp</button>
+                    <button type="button" class="btn-pay paypal" onclick="payWith('paypal')">PayPal</button>
+                </div>
+            </section>
+
+            <!-- AI & Scanner Quick Grid -->
+            <section class="tools-grid">
+                <button type="button" class="tool-item" onclick="handleGatedFunction(15, triggerReceiptCamera)">
+                    <span class="tool-icon">📷</span>
+                    <span class="tool-title">15. AI Receipt Scan</span>
+                    <span class="lock-badge" data-lock-badge>🔒</span>
+                </button>
+                <button type="button" class="tool-item" onclick="handleGatedFunction(17, openAiAssistantModal)">
+                    <span class="tool-icon">✨</span>
+                    <span class="tool-title">17. AI Split Prompt</span>
+                    <span class="lock-badge" data-lock-badge>🔒</span>
+                </button>
+            </section>
+
+            <input type="file" id="receipt-file-input" accept="image/*" capture="environment" style="display: none;" onchange="processReceiptImage(event)" />
+
+            <!-- Function #16: Voice Input -->
+            <button type="button" class="footer-voice-btn" id="voice-btn" onclick="handleGatedFunction(16, triggerVoiceInput)">
+                🎤 16. OPEN VOICE SPLIT INPUT
+            </button>
+        </main>
+
+        <!-- ==========================================
+             TAB 2: GLOBAL & EXECUTIVE TRAVEL (20-24)
+             ========================================== -->
+        <section id="tab-travel" class="tab-panel" style="display: none;">
+            <div class="input-card">
+                <h2 class="section-heading">🌍 Executive Travel &amp; FX Tools</h2>
+
+                <!-- Function #20: Multi-Currency Converter -->
+                <div class="tool-box">
+                    <label>20. Live Bill Currency Converter</label>
+                    <div class="dual-input-row">
+                        <select id="fx-currency" onchange="updateTravelCalculations()">
+                            <option value="1">USD ($1.00)</option>
+                            <option value="0.92">EUR (€0.92)</option>
+                            <option value="0.79">GBP (£0.79)</option>
+                            <option value="4065">KHR — Cambodia Riel (៛4,065)</option>
+                            <option value="152.5">JPY (¥152.5)</option>
+                            <option value="34.2">THB (฿34.2)</option>
+                            <option value="1.38">CAD ($1.38)</option>
+                            <option value="1.51">AUD ($1.51)</option>
+                        </select>
+                        <div class="fx-output" id="fx-converted-output">$0.00 / person</div>
+                    </div>
+                </div>
+
+                <!-- Function #21: International Tipping Etiquette -->
+                <div class="tool-box">
+                    <label for="etiquette-country">21. Country Tipping Etiquette Advisor</label>
+                    <select id="etiquette-country" onchange="showCountryEtiquette()">
+                        <option value="us">🇺🇸 United States / Canada (18%–22% standard)</option>
+                        <option value="kh">🇰🇭 Cambodia (5%–10% or round up; appreciated in USD/KHR)</option>
+                        <option value="eu">🇪🇺 Western Europe (5%–10%; service often included)</option>
+                        <option value="uk">🇬🇧 United Kingdom (10%–12.5% discretionary charge)</option>
+                        <option value="jp">🇯🇵 Japan (0% — tipping not customary)</option>
+                        <option value="th">🇹🇭 Thailand (5%–10% at sit-down restaurants)</option>
+                    </select>
+                    <p class="helper-note" id="etiquette-note">Standard sit-down dining tip is 18%–22% pre-tax. Apply with 1 tap below.</p>
+                    <button type="button" class="btn-outline" onclick="applyRecommendedCountryTip()">Apply Recommended Tip %</button>
+                </div>
+
+                <!-- Function #22: Per-Diem Daily Allowance Tracker -->
+                <div class="tool-box">
+                    <label for="per-diem-limit">22. Corporate Per-Diem Allowance ($/Day)</label>
+                    <div class="dual-input-row">
+                        <input type="number" id="per-diem-limit" value="79.00" step="1" oninput="updateTravelCalculations()" />
+                        <div class="fx-output" id="per-diem-remaining">$79.00 left</div>
+                    </div>
+                </div>
+
+                <!-- Function #23: Cash Denominations Breakdown -->
+                <div class="tool-box">
+                    <label>23. Exact Cash Bills Needed (Per Person)</label>
+                    <div class="cash-bills-box" id="cash-denominations-output">Enter a bill amount on the Split tab to see exact $100/$50/$20/$10/$5/$1 breakdown.</div>
+                </div>
+
+                <!-- Function #24: Credit Card Points Optimizer -->
+                <div class="tool-box">
+                    <label for="cc-multiplier">24. Dining Credit Card Rewards Optimizer</label>
+                    <select id="cc-multiplier" onchange="updateTravelCalculations()">
+                        <option value="0.04">Amex Gold / Sapphire Reserve (4x Dining ≈ 6% value)</option>
+                        <option value="0.03">Chase Sapphire Preferred / Bilt (3x Dining ≈ 4.5% value)</option>
+                        <option value="0.02">Flat 2% Cashback Executive Card</option>
+                    </select>
+                    <p class="helper-note" id="cc-rewards-output">Estimated points rebates on this check: $0.00</p>
                 </div>
             </div>
+        </section>
 
-            <div class="input-group">
-                <label for="ppl-count">Split Among (People)</label>
-                <div class="stepper-row">
-                    <button type="button" class="stepper-btn" onclick="adjustPeople(-1)">−</button>
-                    <input type="number" id="ppl-count" value="1" min="1" max="100" inputmode="numeric" />
-                    <button type="button" class="stepper-btn" onclick="adjustPeople(1)">+</button>
+        <!-- ==========================================
+             TAB 3: SECURE FINANCE VAULT (30-33)
+             ========================================== -->
+        <section id="tab-vault" class="tab-panel" style="display: none;">
+            <div class="input-card">
+                <div class="vault-header">
+                    <div>
+                        <h2 class="section-heading" style="margin:0;">🔐 Financial Expense Vault</h2>
+                        <p class="helper-note" id="vault-sync-status">Local Encrypted Mode • Sign in for Cloud Sync</p>
+                    </div>
+                    <button type="button" class="chip-btn" onclick="openAuthModal()">30. Account</button>
                 </div>
+
+                <!-- Function #32: Monthly Dining Budget & Analytics -->
+                <div class="tool-box">
+                    <div class="label-split">
+                        <label for="monthly-budget-input">32. Monthly Dining Budget ($)</label>
+                        <span id="budget-summary-label" class="gold-text">$0 / $600</span>
+                    </div>
+                    <input type="number" id="monthly-budget-input" value="600" step="25" oninput="updateBudgetProgress()" />
+                    <div class="progress-bar-bg">
+                        <div id="budget-progress-fill" class="progress-bar-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Function #31: Log Expense with Tax Category -->
+                <div class="tool-box">
+                    <label>31. Tag &amp; Save Current Bill to Financial Ledger</label>
+                    <div class="dual-input-row">
+                        <select id="expense-category">
+                            <option value="Business Meal (50% Deductible)">💼 Business Meal (50% IRS Ded.)</option>
+                            <option value="Client Entertainment">🤝 Client Hospitality</option>
+                            <option value="Executive Travel Per-Diem">✈️ Travel Per-Diem</option>
+                            <option value="Personal Dining">🍽️ Personal Dining</option>
+                        </select>
+                        <input type="text" id="expense-merchant" placeholder="Merchant / Restaurant Name" />
+                    </div>
+                    <button type="button" class="btn-primary" style="margin-top:8px;" onclick="saveSplitToVault()">+ Record Financial Entry</button>
+                </div>
+
+                <!-- Function #33: Tax-Deductible Summary & CSV Export -->
+                <div class="vault-stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Total Logged</span>
+                        <strong id="vault-stat-total">$0.00</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">My Share Spent</span>
+                        <strong id="vault-stat-myshare">$0.00</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Tax Deductible (Est.)</span>
+                        <strong id="vault-stat-deductible">$0.00</strong>
+                    </div>
+                </div>
+
+                <div class="action-pair" style="margin-bottom: 12px;">
+                    <button type="button" class="btn-outline" onclick="handleGatedFunction(33, exportVaultCsv)">33. 📥 Export IRS CSV</button>
+                    <button type="button" class="btn-outline" onclick="syncVaultWithCloud()">☁️ Sync Cloud Now</button>
+                </div>
+
+                <div id="vault-ledger-list" class="history-list"></div>
             </div>
         </section>
 
-        <!-- Results Card -->
-        <section class="result-display">
-            <div class="res-row">
-                <span>Tip Amount:</span>
-                <span class="res-val" id="tip-total">$0.00</span>
-            </div>
-            <div class="res-row">
-                <span>Total Bill:</span>
-                <span class="res-val" id="grand-total">$0.00</span>
-            </div>
-            <div class="res-row main-res">
-                <span>Each Pays:</span>
-                <span class="res-val" id="final-res">$0.00</span>
+        <!-- ==========================================
+             TAB 4: ALL 33 FUNCTIONS INTERACTIVE HUB
+             ========================================== -->
+        <section id="tab-directory" class="tab-panel" style="display: none;">
+            <div class="input-card">
+                <div class="label-split">
+                    <h2 class="section-heading" style="margin:0;">🧰 All 33 Executive Functions</h2>
+                    <button type="button" class="chip-btn" onclick="openUnlockModal('pro')">Unlock All 33</button>
+                </div>
+                <p class="helper-note">Tap any function below to jump straight to that tool or run it immediately.</p>
+                <div id="functions-33-grid" class="directory-list"></div>
             </div>
         </section>
 
-        <!-- Primary Actions & Payment Deep Links -->
-        <section class="actions">
-            <div class="action-pair">
-                <button type="button" class="btn-outline" onclick="roundUp()">Round Up Total</button>
-                <button type="button" class="btn-outline" onclick="saveCurrentSplit()">Save to History</button>
-            </div>
-            <button type="button" class="btn-primary" onclick="sendTextToGroup()">Send Text to Group</button>
-
-            <div class="payment-header">
-                <span>Instant Payment Request</span>
-                <button type="button" class="link-btn" onclick="openHandlesModal()">Configure Handles ⚙️</button>
-            </div>
-            <div class="payment-row">
-                <button type="button" class="btn-pay venmo" onclick="payWith('venmo')">Venmo</button>
-                <button type="button" class="btn-pay cashapp" onclick="payWith('cashapp')">CashApp</button>
-                <button type="button" class="btn-pay paypal" onclick="payWith('paypal')">PayPal</button>
-            </div>
-        </section>
-
-        <!-- AI & Utility Tools Grid -->
-        <section class="tools-grid">
-            <button type="button" class="tool-item" id="tile-scanner" onclick="handleFeatureTap('scanner')">
-                <span class="tool-icon">📷</span>
-                <span class="tool-title">Receipt Scanner</span>
-                <span class="lock-badge" id="lock-scanner">🔒</span>
-            </button>
-            <button type="button" class="tool-item" id="tile-ai" onclick="handleFeatureTap('ai')">
-                <span class="tool-icon">✨</span>
-                <span class="tool-title">AI Assistant</span>
-                <span class="lock-badge" id="lock-ai">🔒</span>
-            </button>
-            <button type="button" class="tool-item" onclick="openHistoryModal()">
-                <span class="tool-icon">🕒</span>
-                <span class="tool-title">Split History</span>
-            </button>
-            <button type="button" class="tool-item" onclick="resetCalculator()">
-                <span class="tool-icon">🔄</span>
-                <span class="tool-title">Reset Table</span>
-            </button>
-        </section>
-
-        <!-- Hidden Camera File Input for Receipt Scanning -->
-        <input type="file" id="receipt-file-input" accept="image/*" capture="environment" style="display: none;" onchange="processReceiptImage(event)" />
-
-        <!-- Voice Input Trigger -->
-        <button type="button" class="footer-voice-btn" id="voice-btn" onclick="triggerVoiceInput()">
-            🎤 OPEN VOICE INPUT
-        </button>
         <div id="voice-status" class="status-banner" style="display: none;"></div>
 
-        <!-- Bottom Monetization Banner -->
+        <!-- Bottom Monetization & Auth Status Bar -->
         <div id="ad-banner" class="ad-banner">
-            <span id="unlock-timer-text">Ad-Supported Mode • <a href="javascript:void(0)" onclick="openUnlockModal('pro')">Unlock Pro ($2.99)</a></span>
+            <span id="unlock-timer-text">Ad-Supported Mode • <a href="javascript:void(0)" onclick="openUnlockModal('pro')">Unlock All 33 Functions ($2.99)</a></span>
         </div>
     </div>
 
-    <!-- Modal 1: Dual Unlock Paywall (1-Hr Rewarded Ad vs $2.99 Pro) -->
+    <!-- ==========================================
+         MODALS (Auth, PIN Lock, Itemized, QR, Paywall)
+         ========================================== -->
+
+    <!-- Modal A: Firebase Financial Login & Security -->
+    <div id="auth-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <h2 class="modal-title">🔐 Financial Vault Login</h2>
+            <p class="modal-desc" id="auth-modal-desc">Sign in to encrypt and sync your dining ledger, payment handles, and tax-deductible receipts across devices.</p>
+
+            <div id="auth-logged-out-view">
+                <div class="input-group">
+                    <label for="auth-email">Email Address</label>
+                    <input type="email" id="auth-email" placeholder="dconnolly@jeconllc.com" autocomplete="email" />
+                </div>
+                <div class="input-group">
+                    <label for="auth-password">Password (min 6 chars)</label>
+                    <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" />
+                </div>
+                <div class="action-pair" style="margin-top:12px;">
+                    <button type="button" class="btn-primary" onclick="signInEmail()">Sign In</button>
+                    <button type="button" class="btn-outline" onclick="signUpEmail()">Create Account</button>
+                </div>
+                <button type="button" class="btn-outline" style="margin-top:10px; width:100%;" onclick="signInWithGoogle()">
+                    🌐 Continue with Google
+                </button>
+            </div>
+
+            <div id="auth-logged-in-view" style="display: none;">
+                <div class="tool-box" style="text-align:center;">
+                    <div style="font-size:0.8rem; color:#94A3B8;">Signed in as</div>
+                    <strong id="auth-user-email" style="color:#D4AF37; font-size:1.05rem;"></strong>
+                </div>
+                <div class="input-group">
+                    <label for="user-pin-code">Optional 4-Digit Quick PIN Lock</label>
+                    <input type="password" id="user-pin-code" maxlength="4" placeholder="e.g. 2026" inputmode="numeric" />
+                </div>
+                <button type="button" class="btn-primary" onclick="savePinCode()">Save Quick PIN</button>
+                <button type="button" class="btn-outline" style="margin-top:10px;" onclick="signOutUser()">Sign Out</button>
+            </div>
+
+            <button type="button" class="btn-text" onclick="closeModals()">Close</button>
+        </div>
+    </div>
+
+    <!-- Modal B: Quick PIN Privacy Lock Screen -->
+    <div id="pin-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card" style="text-align:center;">
+            <h2 class="modal-title">🛡️ Financial Vault Locked</h2>
+            <p class="modal-desc">Enter your 4-digit PIN to unlock your financial ledger.</p>
+            <input type="password" id="pin-unlock-input" maxlength="4" placeholder="••••" inputmode="numeric" style="text-align:center; font-size:1.5rem; letter-spacing:8px;" />
+            <div class="modal-actions">
+                <button type="button" class="btn-primary" onclick="verifyPinUnlock()">Unlock Vault</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal C: Function #9 Itemized Split Builder -->
+    <div id="itemized-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <h2 class="modal-title">🧾 9. Itemized Diner Split</h2>
+            <p class="modal-desc">Add dishes and assign them to diners. Tax and tip are automatically distributed proportionally!</p>
+            <div class="dual-input-row">
+                <input type="text" id="item-diner-name" placeholder="Diner (e.g. Dave)" />
+                <input type="number" id="item-price" placeholder="Price ($)" step="0.01" inputmode="decimal" />
+            </div>
+            <button type="button" class="btn-outline" style="margin-bottom:10px;" onclick="addItemizedRow()">+ Add Dish / Item</button>
+            <div id="itemized-list" class="history-list"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn-primary" onclick="applyItemizedToCalculator()">Apply Itemized Total to Bill</button>
+                <button type="button" class="btn-text" onclick="clearItemizedRows()">Reset Items</button>
+                <button type="button" class="btn-text" onclick="closeModals()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal D: Function #29 Table QR Code Generator -->
+    <div id="qr-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card" style="text-align:center;">
+            <h2 class="modal-title">📲 29. Scan to Pay Share</h2>
+            <p class="modal-desc" id="qr-share-desc">Hold up your phone so guests at the table can scan their exact share.</p>
+            <div class="qr-box">
+                <img id="qr-image" src="" alt="Payment QR Code" width="200" height="200" />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-primary" onclick="closeModals()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal E: Dual Unlock Paywall (1-Hr Rewarded Ad vs $2.99 Pro) -->
     <div id="unlock-modal" class="modal-overlay" style="display: none;">
         <div class="modal-card">
-            <h2 class="modal-title">Unlock Executive AI Tools</h2>
-            <p class="modal-desc">Watch a short 15-second sponsor clip to unlock <strong>AI Receipt Scanner</strong> &amp; <strong>Smart Split Assistant</strong> for 1 hour, or upgrade once to unlock forever.</p>
+            <h2 class="modal-title">Unlock All 33 Executive Functions</h2>
+            <p class="modal-desc">Watch a short sponsor clip to unlock <strong>all 33 AI, Travel, Itemized Split &amp; Tax Export functions</strong> for 1 hour, or upgrade once to unlock forever.</p>
 
             <div id="ad-Countdown-box" class="ad-video-box" style="display: none;">
-                <p id="ad-countdown-label">Sponsor Message Playing... 15s</p>
+                <p id="ad-countdown-label">Sponsor Message Playing... 5s</p>
                 <div class="progress-bar-bg">
                     <div id="ad-progress-fill" class="progress-bar-fill"></div>
                 </div>
             </div>
 
             <div class="modal-actions" id="unlock-modal-buttons">
-                <button type="button" class="btn-primary" onclick="startRewardedAd()">▶ Watch 15s Ad (1-Hour Pass)</button>
-                <button type="button" class="btn-outline pro-btn" onclick="activateProForever()">★ Unlock Forever — $2.99</button>
+                <button type="button" class="btn-primary" onclick="startRewardedAd()">▶ Watch Ad (1-Hour Full Unlock)</button>
+                <button type="button" class="btn-outline pro-btn" onclick="activateProForever()">★ Unlock All 33 Forever — $2.99</button>
                 <button type="button" class="btn-text" onclick="closeModals()">Cancel</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal 2: AI Assistant Smart Split & Gemini Key Setup -->
+    <!-- Modal F: AI Assistant Smart Split & Gemini Key Setup -->
     <div id="ai-modal" class="modal-overlay" style="display: none;">
         <div class="modal-card">
-            <h2 class="modal-title">✨ AI Split Assistant</h2>
-            <p class="modal-desc">Describe complex splits in plain English (e.g., <em>"Bill is $145, tax $12, 20% tip, 4 people"</em>).</p>
+            <h2 class="modal-title">✨ 17. AI Split Assistant</h2>
+            <p class="modal-desc">Describe your check in plain English (e.g., <em>"Bill is $185, tax $14.80, bar tab $40, 20% tip, 4 people, 1 birthday VIP"</em>).</p>
             <textarea id="ai-prompt-input" rows="3" placeholder="Type or paste receipt details here..."></textarea>
 
             <div class="input-group" style="margin-top: 12px;">
                 <label for="gemini-api-key">Optional Gemini API Key (for Live Vision/AI):</label>
-                <input type="password" id="gemini-api-key" placeholder="AIzaSy... (falls back to local parser if blank)" />
+                <input type="password" id="gemini-api-key" placeholder="AIzaSy... (uses local parser if blank)" />
             </div>
 
             <div class="modal-actions">
@@ -168,34 +488,21 @@
         </div>
     </div>
 
-    <!-- Modal 3: Split History Log -->
-    <div id="history-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-card">
-            <h2 class="modal-title">🕒 Recent Bill Splits</h2>
-            <div id="history-list" class="history-list"></div>
-            <div class="modal-actions">
-                <button type="button" class="btn-outline" onclick="openNativeHistory()">View Cloud Voice Logs</button>
-                <button type="button" class="btn-text" onclick="clearLocalHistory()">Clear Local History</button>
-                <button type="button" class="btn-primary" onclick="closeModals()">Done</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal 4: Payment Handles Configuration -->
+    <!-- Modal G: Payment Handles Configuration -->
     <div id="handles-modal" class="modal-overlay" style="display: none;">
         <div class="modal-card">
             <h2 class="modal-title">⚙️ Payment Handles</h2>
-            <p class="modal-desc">Set your handles once so friends are routed directly to your payment profile with the exact amount pre-filled.</p>
+            <p class="modal-desc">Saved locally and synced to your encrypted Cloud Vault when signed in.</p>
             <div class="input-group">
-                <label for="handle-venmo">Venmo Username (without @)</label>
+                <label for="handle-venmo">25. Venmo Username (without @)</label>
                 <input type="text" id="handle-venmo" placeholder="e.g. David-Connolly" />
             </div>
             <div class="input-group">
-                <label for="handle-cashapp">CashApp $Cashtag (without \$)</label>
+                <label for="handle-cashapp">26. CashApp $Cashtag (without $)</label>
                 <input type="text" id="handle-cashapp" placeholder="e.g. djconnolly" />
             </div>
             <div class="input-group">
-                <label for="handle-paypal">PayPal.Me Username</label>
+                <label for="handle-paypal">27. PayPal.Me Username</label>
                 <input type="text" id="handle-paypal" placeholder="e.g. djconnolly" />
             </div>
             <div class="modal-actions">
@@ -205,6 +512,10 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs (Compat v10 for clean static/PWA execution) -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
