@@ -1,4 +1,8 @@
 # // wrangler.toml
 name = "tip-n-split-ai"
 compatibility_date = "2026-10-15"
-pages_build_output_dir = "app/src/main/assets"
+
+[assets]
+directory = "./app/src/main/assets"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
